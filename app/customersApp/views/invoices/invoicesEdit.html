@@ -1,0 +1,70 @@
+﻿<div class="view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-edit"></span> {{vm.title}} Invoice</h3>
+        </header>
+        <form name="editForm" novalidate>
+            <div class="invoiceEdit">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>{{ vm.invoice.customer }} <span data-ng-hide="vm.invoice.id == 0">(<a style="font-size:12pt" href="#/invoiceorders/{{vm.invoice.id}}">View Orders</a>)</span></h4>
+                        <br />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        Customer:
+                    </div>
+                    <div class="col-md-10">
+                        <select name="customer" required class="form-control"
+                                data-ng-model="vm.invoice.customer"
+                                data-ng-options="customer.id as customer.fullname for customer in vm.customers">
+                            <option value=""></option>
+                        </select>
+                        <span class="errorMessage" ng-show="editForm.invoice.$touched && editForm.invoice.$invalid">
+                            Customer is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Date:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="date" name="dateInvoiced" class="form-control" data-ng-model="vm.invoice.dateInvoiced" required />
+                        <span class="errorMessage" ng-show="editForm.dateInvoiced.$touched && editForm.dateInvoiced.$invalid">
+                            Date is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-default" data-ng-click="vm.back()">Cancel</button>
+                        &nbsp;&nbsp;
+                        <button type="submit" class="btn btn-primary" data-ng-click="vm.saveInvoice()"
+                                ng-disabled="editForm.$invalid || !editForm.$dirty">
+                            {{vm.buttonText}}
+                        </button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-danger" data-ng-if="vm.invoice.id > 0" data-ng-click="vm.deleteInvoice()">Delete</button>
+                    </div>
+                </div>
+                <br />
+                <div class="statusRow">
+                    <br />
+                    <div class="label label-success" data-ng-show="vm.updateStatus">
+                        <span class="glyphicon glyphicon-thumbs-up icon-white"></span>&nbsp;&nbsp;Invoice updated!
+                    </div>
+                </div>
+                <div class="statusRow">
+                    <br />
+                    <div class="label label-important" data-ng-show="vm.errorMessage">
+                        <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Error: {{ vm.errorMessage }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

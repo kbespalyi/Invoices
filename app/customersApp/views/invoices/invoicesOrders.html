@@ -1,0 +1,19 @@
+﻿<div class="invoiceOrders view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Invoice Orders</h3>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div>
+                        <h4>Orders for <a href="#/invoiceedit/{{vm.invoice.id}}">{{ vm.invoice.customer }} <i class="icon-edit editIcon"></i></a></h4>
+                        {{vm.invoice.dateInvoiced | date:'MM/dd/yyyy'}}
+                        <br /><br />
+                    </div>
+                    <div data-ng-include="'/app/customersApp/views/invoiceOrders/invoiceOrdersTable.html'" data-ng-controller="InvoiceOrderChildController as vm" />
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

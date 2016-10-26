@@ -1,0 +1,47 @@
+﻿<table class="table table-hover table-striped table-condensed table-bordered invoiceOrdersTable">
+    <thead>
+        <tr>
+            <th data-ng-click="vm.setOrder('product')">Product</th>
+            <th data-ng-click="vm.setOrder('quantity')">Quantity</th>
+            <th data-ng-click="vm.setOrder('price')">Price</th>
+            <th data-ng-click="vm.setOrder('sum')">Sum</th>
+            <th data-ng-click="vm.setOrder('taxes')">Taxes</th>
+            <th data-ng-click="vm.setOrder('amount')">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-hide="vm.invoice.orders || vm.invoice.orders.length > 0" class="error">
+            <td colspan="5">
+                <div class="text-center"><strong>No orders found</strong></div>
+            </td>
+        </tr>
+        <tr data-ng-repeat="order in vm.invoice.orders | orderBy:vm.orderby:vm.reverse" class="repeat-animation">
+            <td>
+                {{ order.product }}
+            </td>
+            <td>
+                {{ order.quantity }}
+            </td>
+            <td>
+                {{ order.price | currency }}
+            </td>
+            <td>
+                {{ order.sum | currency }}
+            </td>
+            <td>
+                {{ order.taxes | currency }}
+            </td>
+            <td>
+                {{ order.amount | currency }}
+            </td>
+        </tr>
+        <tr class="info">
+            <td colspan="4">
+                &nbsp;
+            </td>
+            <td>
+                <strong>{{ vm.invoice.totalAmount | currency }}</strong>
+            </td>
+        </tr>
+    </tbody>
+</table>

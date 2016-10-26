@@ -1,0 +1,123 @@
+﻿<div class="invoices view indent">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-user"></span> Invoices</h3>
+        </header>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="navbar">
+                    <ul class="nav navbar-nav">
+                        <li data-ng-class="{active: !vm.listDisplayModeEnabled}" class="toolbaritem">
+                            <a data-ng-click="vm.changeDisplayMode(vm.DisplayModeEnum.Card)">
+                                <span class="glyphicon glyphicon-th-large"></span> Card View
+                            </a>
+                        </li>
+                        <li data-ng-class="{active: vm.listDisplayModeEnabled}" class="toolbaritem">
+                            <a data-ng-click="vm.changeDisplayMode(vm.DisplayModeEnum.List)">
+                                <span class="glyphicon glyphicon-align-justify"></span> List View
+                            </a>
+                        </li>
+                        <li class="toolbaritem">
+                            <a data-ng-click="vm.navigate('/invoiceedit/0')">
+                                <span class="glyphicon glyphicon-plus"></span> Add Invoice
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <label class="navbarText col-sm-2">Filter:</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       data-ng-model="vm.searchText"
+                                       data-ng-change="vm.searchTextChanged()"
+                                       class="novalidate form-control" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row cardContainer show-hide-animation" data-ng-hide="vm.listDisplayModeEnabled">
+                <div class="col-sm-6 col-md-4 col-lg-3" data-ng-class="vm.cardAnimationClass"
+                     data-ng-repeat="invoice in vm.filteredInvoices | orderBy:'id'">
+                    <div class="card">
+                        <button class="btn close cardClose" title="Delete Invoice" data-ng-click="vm.deleteInvoice(invoice.id)">&times;</button>
+                        <div class="cardHeader"><a href="#/invoiceedit/{{invoice.id}}" class="white">Invoice #{{invoice.id}}, {{invoice.dateInvoiced | date:'MM/dd/yyyy'}} <i class="icon-edit icon-white editIcon"></i></a></div>
+                        <div class="cardBody">
+                            <div class="clearfix">
+                                <div class="pull-left cardBodyLeft">
+                                    <a href="#/invoiceedit/{{invoice.id}}" class="white"></a>
+                                </div>
+                                <div class="pull-left cardBodyRight">
+                                    <div class="cardBodyContent">{{invoice.customer}}</div>
+                                    <div>
+                                        <a href="#/invoiceorders/{{invoice.id}}" class="btn-link">
+                                            {{ invoice.orderCount }}
+                                            <span data-ng-pluralize count="invoice.orderCount"
+                                                  when="{'1': 'Order','other': 'InvoiceOrders'}">
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gridContainer invoicesTable show-hide-animation" data-ng-show="vm.listDisplayModeEnabled">
+                <div class="col-md-10">
+                    <div>
+                        <table class="table table-striped table-condensed">
+                            <thead>
+                                <tr>
+                                    <th data-ng-click="vm.setOrder('id')">Invoice #</th>
+                                    <th data-ng-click="vm.setOrder('customer')">Customer</th>
+                                    <th data-ng-click="vm.setOrder('dateInvoiced')">Date</th>
+                                    <th data-ng-click="vm.setOrder('orderCount')">Orders</th>
+                                    <th>&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="invoice in vm.filteredInvoices | orderBy:vm.orderby:vm.reverse" class="repeat-animation">
+                                    <td><a href="#/invoiceedit/{{invoice.id}}">{{invoice.id}}</a></td>
+                                    <td><a href="#/invoiceedit/{{invoice.id}}">{{invoice.customer}}</a></td>
+                                    <td>{{invoice.dateInvoiced | date:'MM/dd/yyyy'}}</td>
+                                    <td>
+                                        <a href="#/invoiceorders/{{invoice.id}}" class="btn-link">
+                                            {{ invoice.orderCount }}
+                                            <span data-ng-pluralize count="invoice.orderCount"
+                                                  when="{'1': 'Order','other': 'InvoiceOrders'}">
+                                            </span>
+                                        </a>
+                                    </td>
+                                    <td><button class="btn btn-danger" data-ng-click="vm.deleteInvoice(invoice.id)">Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row show-hide-animation" data-ng-show="vm.filteredInvoices.length == 0">
+                <div class="col-span-12">
+                    <h4>No invoices found</h4>
+                </div>
+            </div>
+        </div>
+        <div class="row show-hide-animation" data-ng-show="vm.invoices.length > 0">
+            <div class="col-md-12">
+                <div data-pagination
+                     data-on-select-page="vm.pageChanged(page)"
+                     data-total-items="vm.totalRecords"
+                     data-page="vm.currentPage"
+                     data-items-per-page="vm.pageSize"
+                     data-boundary-links="true"
+                     class="pagination-sm"></div>
+                <h5>Showing {{ vm.filteredCount }} of {{ vm.totalRecords}} total invoices</h5>
+            </div>
+        </div>
+        <br /><br /><br />
+    </div>
+</div>

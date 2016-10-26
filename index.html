@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoices</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/animations.css" rel="stylesheet" />
+    <link href="Content/styles.css" rel="stylesheet" />
+</head>
+<body data-ng-cloak>
+    
+    <header class="navbar navbar-inner navbar-fixed-top" data-ng-controller="NavbarController as vm">
+        <nav class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-ng-click="vm.isCollapsed = !vm.isCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/">
+                    <img src="Content/images/people.png" alt="logo">
+                    <span class="appTitle">{{ vm.appTitle }}</span>
+                </a>
+            </div>
+            <div class="nav-container" data-collapse="isCollapsed">
+
+                <ul class="nav navbar-nav nav-pills navBarPadding"
+                    data-menu-highlighter data-highlight-class-name="active">
+                    <li><a href="#/invoices">Invoices</a></li>
+                    <li><a href="#/customers">Customers</a></li>
+                    <li><a href="#/products">Products</a></li>
+                    <li><a href="#/about">About</a></li>
+                    <li id="nav-login" data-ng-click="vm.loginOrOut()">
+                        <!-- href not used but needed to compare against path in menu-highlighter -->
+                        <a data-href="#/login">{{ vm.loginLogoutText }}</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+
+    <div class="slide-animation-container">
+        <div data-ng-view id="ng-view" class="slide-animation"></div>
+    </div>
+    
+    <div id="footer">
+        <div class="navbar navbar-fixed-bottom">
+            <div class="navbar-inner footer">
+                <div class="container">
+                    <footer>
+                        <div class="row">
+						    <div class="col-xs-8" ng-switch="isLoading">
+						 
+						        <!-- BEGIN: Loading View. -->
+						        <p ng-switch-when="true">
+						 
+						            Your images are being loaded... {{ percentLoaded }}%
+						 
+						        </p>
+						        <!-- END: Loading View. -->
+						 
+						        <!-- BEGIN: Results View. -->
+						        <div ng-switch-when="false" ng-switch="isSuccessful">
+						 
+						            <p ng-switch-when="true">
+						 
+						                <img ng-repeat="src in imageLocations" ng-src="{{ src }}" style="width: 100px ; margin-right: 10px ;" />
+						 
+						            </p>
+						 
+						            <p ng-switch-when="false">
+						 
+						                <strong>Oops</strong>: One of your images failed to load :(
+						 
+						            </p>
+						 
+						        </div>
+						        <!-- END: Results View. -->
+						 
+						    </div>
+                            <div class="col-xs-4">
+                                Created by Khusein Bespalyi
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-wc-overlay data-wc-overlay-delay="300">
+        <br /><img src="Content/images/spinner.gif" />&nbsp;&nbsp;Loading
+    </div>
+
+    <!-- 3rd party libraries -->
+	<script>
+	    UPLOADCARE_PUBLIC_KEY = 'demopublickey';
+	    UPLOADCARE_IMAGES_ONLY = true;
+	    //UPLOADCARE_DO_NOT_STORE = true;
+	    UPLOADCARE_CDN_BASE = "http://www.ucarecdn.com";
+	    UPLOADCARE_URL_BASE = "https://upload.uploadcare.com";
+	    UPLOADCARE_SOCIAL_BASE = "https://social.uploadcare.com";
+	</script>
+    
+    <script src="Scripts/angular.min.js" charset="utf-8" ></script>
+    <script src="Scripts/angular-route.min.js" charset="utf-8"></script>
+    <script src="Scripts/angular-animate.min.js" charset="utf-8"></script>
+    <script src="Scripts/angular-ui-bootstrap.js" charset="utf-8"></script>
+    <script src="Scripts/tweenMax.min.js" charset="utf-8"></script>
+	<!-- <script src="Scripts/jquery.min.js" charset="utf-8"></script> -->    
+	<script src="Scripts/uploadcare.full.min.js" charset="utf-8"></script>
+
+    <script src="app/wc.directives/directives/wcOverlay.js" charset="utf-8"></script>
+    <script src="app/wc.directives/directives/menuHighlighter.js" charset="utf-8"></script>
+
+    <script src="Scripts/breeze.min.js" charset="utf-8"></script>
+    <script src="Scripts/breeze.angular.js" charset="utf-8"></script>
+
+    <!-- Load custom scripts via RequireJS -->
+    <script src="Scripts/require.js" charset="utf-8" data-main="Scripts/main"></script>
+
+</body>
+</html>

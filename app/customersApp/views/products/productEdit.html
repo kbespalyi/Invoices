@@ -1,0 +1,164 @@
+﻿<div class="view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-edit"></span> {{vm.title}} Product</h3>
+        </header>
+        <form name="editForm" enctype="multipart/form-data" novalidate>
+            <div class="productEdit">
+                <div class="row">
+                    <div class="col-xs-1">
+		                <img data-ng-src="{{vm.product.imageSrc || 'Content/images/products/' + vm.product.image}}" class="cardImage" alt="{{vm.product.imageSrc ? vm.product.image : 'Product Image'}}" />
+                    </div>
+                    <div class="col-md-11">
+                        <h4>{{ vm.product.product }} </h4>
+                        <br />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Product name:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" name="product" class="form-control"
+	                       data-ng-model="vm.product.product"
+	                       data-ng-model-options="{ updateOn: 'blur', allowInvalid: true }"
+	                       data-wc-unique
+	                       data-wc-unique-key="{{vm.product.id}}"
+	                       data-wc-unique-property="product"
+	                       data-ng-minlength="2"
+	                       required />
+                        <span class="errorMessage" ng-show="editForm.product.$touched && editForm.product.$invalid">
+                            Product name is required
+                        </span>
+                        <span class="errorMessage" ng-show="editForm.product.$touched && editForm.product.$error.unique">
+                            Product name already in use
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Price:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="number" name="price" class="form-control" data-ng-model="vm.product.price" required />
+                        <span class="errorMessage" ng-show="editForm.price.$touched && editForm.price.$invalid">
+                            Price is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        In stock:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="number" name="quantity" class="form-control" data-ng-model="vm.product.quantity" required />
+                        <span class="errorMessage" ng-show="editForm.quantity.$touched && editForm.quantity.$invalid">
+                            Quantity is required
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Is basic tax applyed:
+                    </div>
+                    <div class="col-md-10">
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="tax_based" value="true"
+                                       data-ng-checked="vm.product.tax_based"
+                                       data-ng-model="vm.product.tax_based" />
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="tax_based" value="false"
+                                       data-ng-checked="vm.product.tax_based == false"
+                                       data-ng-model="vm.product.tax_based" />
+                                No
+                                <br />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Is import duty applyed:
+                    </div>
+                    <div class="col-md-10">
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="tax_imported" value="true"
+                                       data-ng-checked="vm.product.tax_imported"
+                                       data-ng-model="vm.product.tax_imported" />
+                                Yes
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="radio">
+                                <input type="radio" name="tax_imported" value="false"
+                                       data-ng-checked="vm.product.tax_imported == false"
+                                       data-ng-model="vm.product.tax_imported" />
+                                No
+                                <br />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-2">
+                        Select a new image:
+                    </div>
+                    <div class="col-md-10">
+                        <input type="hidden" name="image" class="form-control" ng-file-select="onFileSelect($files)" data-ng-model="vm.product.image" />
+						<input
+							type="hidden"
+							role="uploadcare-uploader"
+							data-public-key="demopublickey"
+							data-tabs="file camera url facebook gdrive dropbox instagram evernote flickr skydrive"
+							data-image-shrink="640x480"
+							data-images-only="true"
+							data-preview-step="false"
+							data-clearable="false"
+							data-multiple="false"
+							data-system-dialog="false"
+							data-crop="free"
+						/>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-default" data-ng-click="vm.back()">Cancel</button>
+                        &nbsp;&nbsp;
+                        <button type="submit" class="btn btn-primary" data-ng-click="vm.saveProduct()"
+                                ng-disabled="editForm.$invalid || !editForm.$dirty">
+                            {{vm.buttonText}}
+                        </button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-danger" data-ng-if="vm.product.id > 0" data-ng-click="vm.deleteProduct()">Delete</button>
+                    </div>
+                </div>
+                <br />
+                <div class="statusRow">
+                    <br />
+                    <div class="label label-success" data-ng-show="vm.updateStatus">
+                        <span class="glyphicon glyphicon-thumbs-up icon-white"></span>&nbsp;&nbsp;Product updated!
+                    </div>
+                </div>
+                <div class="statusRow">
+                    <br />
+                    <div class="label label-important" data-ng-show="vm.errorMessage">
+                        <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Error: {{ vm.errorMessage }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
